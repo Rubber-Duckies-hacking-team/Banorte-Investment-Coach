@@ -39,13 +39,13 @@ def specific_data(company, start, end):
     return date_filtered_data
 
 
-company_name = random.choice(df["Name"].unique().tolist())
+company_name = "LOréal"
 # Setting the start and end date
 start_date = dt.datetime(2014, 1, 1)
 end_date = dt.datetime(2020, 1, 1)
 
 # Calling our function
-specific_df = specific_data("Air Liquide", start_date, end_date)
+specific_df = specific_data(company_name, start_date, end_date)
 
 print(specific_df.head())
 
