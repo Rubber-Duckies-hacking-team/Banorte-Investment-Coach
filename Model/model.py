@@ -23,7 +23,7 @@ from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
 from sklearn.metrics import mean_squared_error
 
 df = pd.read_csv(
-    "/Users/jgarcia/Library/CloudStorage/OneDrive-SoftServe,Inc/Documents/Code/HackMTY/Banorte-Investment-Coach/Model/preprocessed_CAC40.csv",
+    "Model/preprocessed_CAC40.csv",
     parse_dates=["Date"],
 )
 print(df.head())
