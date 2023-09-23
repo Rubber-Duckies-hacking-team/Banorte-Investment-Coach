@@ -23,7 +23,7 @@ from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
 from sklearn.metrics import mean_squared_error
 
 df = pd.read_csv(
-    "/Users/jgarcia/Library/CloudStorage/OneDrive-SoftServe,Inc/Documents/Code/HackMTY/Banorte-Investment-Coach/Model/preprocessed_CAC40.csv",
+    "Model/preprocessed_CAC40.csv",
     parse_dates=["Date"],
 )
 
@@ -33,7 +33,7 @@ df.drop(["Unnamed: 0"], axis=1, inplace=True)
 df = df.sort_values(by="Date")
 
 # Then, we can calculate the percentage change in Closing_Price over the last year
-df["Pct_Change"] = df["Closing_Price"].pct_change(periods=365)
+df["Pct_Change"] = df["Closing_Price"].pct_change(periods=730)
 
 # Next, we can group by the unique names in the Closing_Price column and get the mean percentage change for each name
 grouped = df.groupby("Name")["Pct_Change"].mean()

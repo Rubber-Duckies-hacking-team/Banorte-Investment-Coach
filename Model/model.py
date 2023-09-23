@@ -23,7 +23,7 @@ from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
 from sklearn.metrics import mean_squared_error
 
 df = pd.read_csv(
-    "/Users/jgarcia/Library/CloudStorage/OneDrive-SoftServe,Inc/Documents/Code/HackMTY/Banorte-Investment-Coach/Model/preprocessed_CAC40.csv",
+    "Model/preprocessed_CAC40.csv",
     parse_dates=["Date"],
 )
 print(df.head())
@@ -218,17 +218,17 @@ model.fit(
 
 
 # Let's do the prediction and check performance metrics
-train_predict=model.predict(X_train)
-test_predict=model.predict(X_test)
+train_predict = model.predict(X_train)
+test_predict = model.predict(X_test)
 
 # Transform back to original form
-train_predict=scaler.inverse_transform(train_predict)
-test_predict=scaler.inverse_transform(test_predict)
+train_predict = scaler.inverse_transform(train_predict)
+test_predict = scaler.inverse_transform(test_predict)
 
 # Calculate train data RMSE
-print(math.sqrt(mean_squared_error(y_train,train_predict)))
+print(math.sqrt(mean_squared_error(y_train, train_predict)))
 # Calculate test data RMSE
-print(math.sqrt(mean_squared_error(y_test,test_predict)))
+print(math.sqrt(mean_squared_error(y_test, test_predict)))
 
 # Set the number of previous time steps to consider for plotting
 look_back = 60
@@ -237,7 +237,7 @@ look_back = 60
 trainPredictPlot = np.empty_like(new_df)
 trainPredictPlot[:] = np.nan
 # Assign the predicted values to the appropriate location for train predictions
-trainPredictPlot[look_back:len(train_predict)+look_back] = train_predict.flatten()
+trainPredictPlot[look_back : len(train_predict) + look_back] = train_predict.flatten()
 
 # Initialize an array for plotting the test predictions
 testPredictPlot = np.empty_like(new_df)
@@ -252,9 +252,13 @@ original_scaled_data = scaler.inverse_transform(scaled_data)
 
 # Plotting the baseline data, training predictions, and test predictions
 plt.figure(figsize=(15, 6))
-plt.plot(original_scaled_data, color='black', label=f"Actual {company_name} price")
-plt.plot(trainPredictPlot, color='red', label=f"Predicted {company_name} price(train set)")
-plt.plot(testPredictPlot, color='blue', label=f"Predicted {company_name} price(test set)")
+plt.plot(original_scaled_data, color="black", label=f"Actual {company_name} price")
+plt.plot(
+    trainPredictPlot, color="red", label=f"Predicted {company_name} price(train set)"
+)
+plt.plot(
+    testPredictPlot, color="blue", label=f"Predicted {company_name} price(test set)"
+)
 
 plt.title(f"{company_name} share price")
 plt.xlabel("time")
@@ -272,23 +276,31 @@ last_sequence = last_sequence.reshape(1, n_past, 1)
 predictions_next_10_days = []
 for _ in range(10):
     next_day_prediction = model.predict(last_sequence)
-    predictions_next_10_days.append(next_day_prediction[0, 0])  # Get the predicted value
+    predictions_next_10_days.append(
+        next_day_prediction[0, 0]
+    )  # Get the predicted value
     last_sequence = np.roll(last_sequence, -1, axis=1)  # Shift the sequence by one day
-    last_sequence[0, -1, 0] = next_day_prediction  # Update the last element with the new prediction
+    last_sequence[
+        0, -1, 0
+    ] = next_day_prediction  # Update the last element with the new prediction
 
 # Transform the predictions back to the original scale
-predictions_next_10_days = scaler.inverse_transform(np.array(predictions_next_10_days).reshape(-1, 1))
+predictions_next_10_days = scaler.inverse_transform(
+    np.array(predictions_next_10_days).reshape(-1, 1)
+)
 
 # Print the predictions for the next 10 days
 print("Predictions for the next 10 days:")
 for i, prediction in enumerate(predictions_next_10_days, start=1):
     print(f"Day {i}: Predicted Price = {prediction[0]}")
-    
-plt.plot(predictions_next_10_days, marker='*')
-plt.title(f'Predicted stock price of {company_name} for next 10 days')
-plt.xlabel('Days')
-plt.ylabel('Price')
-plt.xticks(range(0, 10), ['Day1', 'Day2', 'Day3', 'Day4', 'Day5', 'Day6', 'Day7', 'Day8', 'Day9', 'Day10'])
+
+plt.plot(predictions_next_10_days, marker="*")
+plt.title(f"Predicted stock price of {company_name} for next 10 days")
+plt.xlabel("Days")
+plt.ylabel("Price")
+plt.xticks(
+    range(0, 10),
+    ["Day1", "Day2", "Day3", "Day4", "Day5", "Day6", "Day7", "Day8", "Day9", "Day10"],
+)
 plt.grid(True)
 plt.show()
-
