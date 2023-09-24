@@ -39,7 +39,7 @@ def specific_data(company, start, end):
     return date_filtered_data
 
 
-company_name = "LOréal"
+company_name = "Société Générale (Societe Generale"
 # Setting the start and end date
 start_date = dt.datetime(2014, 1, 1)
 end_date = dt.datetime(2020, 1, 1)

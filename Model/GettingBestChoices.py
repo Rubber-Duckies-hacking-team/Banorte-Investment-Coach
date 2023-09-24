@@ -29,18 +29,62 @@ df = pd.read_csv(
 
 df.drop(["Unnamed: 0"], axis=1, inplace=True)
 
+df = df.sort_values(by=['Name', 'Date'])
+
+# Calcular la diferencia entre los precios de años consecutivos
+df['diff_price'] = df.groupby('Name')['Closing_Price'].diff()
+
+# Definir un umbral de estabilidad (ajusta este valor según tus necesidades)
+umbral_estabilidad = 1.0  # Por ejemplo, 1.0 significa que la diferencia no debe ser mayor al 1% para considerarse estable
+
+# Filtrar las filas con diferencias de precio dentro del umbral de estabilidad
+df = df[(df['diff_price'] > 0) & (df['diff_price'] <= umbral_estabilidad)]
+
+# Calcular el porcentaje de cambio positivo
+df['Pct_Change'] = (df['diff_price'] / df.groupby('Name')['Closing_Price'].shift()) * 100
+
+# Encontrar el top 5 de empresas con el mayor porcentaje de cambio positivo
+top_5 = df.groupby('Name')['Pct_Change'].mean().nlargest(5)
+
+
+
+#----------------------------------
+# df = df.sort_values(by=['Name', 'Date'])
+
+# # Calcular el porcentaje de cambio anual
+# df['Pct_Change'] = df.groupby('Name')['Closing_Price'].pct_change(periods=720) * 100
+
+# # Encontrar el top 5 de empresas con el mayor porcentaje de cambio promedio
+# top_5 = df.groupby('Name')['Pct_Change'].mean().nlargest(5)
+
+# Mostrar el resultado
+print("Top 5 empresas con el mayor porcentaje de cambio promedio:")
+print(top_5)
+
+# ----------------------------------
+
+# df["Pct_Change"] = df.groupby("Name")["Closing_Price"].pct_change(periods=720)*100
+
+# top_5 = df.groupby("Name")["Pct_Change"].mean().nlargest(5)
+
+# print(top_5)
+
+# ----------------------------------
+
+
 # First, we need to make sure the Date column is sorted in ascending order
-df = df.sort_values(by="Date")
+# df = df.sort_values(by="Date")
 
-# Then, we can calculate the percentage change in Closing_Price over the last year
-df["Pct_Change"] = df["Closing_Price"].pct_change(periods=730)
+# # Then, we can calculate the percentage change in Closing_Price over the last year
+# df["Pct_Change"] = df["Closing_Price"].pct_change(periods=365)
 
-# Next, we can group by the unique names in the Closing_Price column and get the mean percentage change for each name
-grouped = df.groupby("Name")["Pct_Change"].mean()
+# # Next, we can group by the unique names in the Closing_Price column and get the mean percentage change for each name
+# grouped = df.groupby("Name")["Pct_Change"].mean()
 
-# Finally, we can sort the groups by the mean percentage change in descending order and get the top 5
-top_5 = grouped.sort_values(ascending=False).head(5)
+# # Finally, we can sort the groups by the mean percentage change in descending order and get the top 5
+# top_5 = grouped.sort_values(ascending=False).head(5)
 
-# Print the top 5 unique names with the greatest growth over the last year, along with the column name
-print(f"Top 5 unique names in the 'Name' column with the greatest growth over the last year:\n{df.loc[df['Name'].isin(top_5.index.tolist()), ['Name']].drop_duplicates().reset_index(drop=True)}")
+# # Print the top 5 unique names with the greatest growth over the last year, along with the column name
+# print(f"Top 5 unique names in the 'Name' column with the greatest growth over the last year:\n{df.loc[df['Name'].isin(top_5.index.tolist()), ['Name']].drop_duplicates().reset_index(drop=True)}")
+
 
