@@ -22,69 +22,107 @@ from tensorflow.keras.layers import LSTM, Dense, Dropout
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
 from sklearn.metrics import mean_squared_error
 
-df = pd.read_csv(
-    "Model/preprocessed_CAC40.csv",
-    parse_dates=["Date"],
-)
+def GettingNeutralChoices():
+    df = pd.read_csv(
+        "Model/preprocessed_CAC40.csv",
+        parse_dates=["Date"],
+    )
 
-df.drop(["Unnamed: 0"], axis=1, inplace=True)
+    df.drop(["Unnamed: 0"], axis=1, inplace=True)
 
-df = df.sort_values(by=['Name', 'Date'])
+    df = df.sort_values(by=['Name', 'Date'])
 
-# Calcular la diferencia entre los precios de años consecutivos
-df['diff_price'] = df.groupby('Name')['Closing_Price'].diff()
+    # Calcular la diferencia entre los precios de años consecutivos
+    df['diff_price'] = df.groupby('Name')['Closing_Price'].diff()
 
-# Definir un umbral de estabilidad (ajusta este valor según tus necesidades)
-umbral_estabilidad = 1.0  # Por ejemplo, 1.0 significa que la diferencia no debe ser mayor al 1% para considerarse estable
+    # Definir un umbral de estabilidad (ajusta este valor según tus necesidades)
+    umbral_estabilidad = 1.0  # Por ejemplo, 1.0 significa que la diferencia no debe ser mayor al 1% para considerarse estable
 
-# Filtrar las filas con diferencias de precio dentro del umbral de estabilidad
-df = df[(df['diff_price'] > 0) & (df['diff_price'] <= umbral_estabilidad)]
+    # Filtrar las filas con diferencias de precio dentro del umbral de estabilidad
+    df = df[(df['diff_price'] > 0) & (df['diff_price'] <= umbral_estabilidad)]
 
-# Calcular el porcentaje de cambio positivo
-df['Pct_Change'] = (df['diff_price'] / df.groupby('Name')['Closing_Price'].shift()) * 100
+    # Calcular el porcentaje de cambio positivo
+    df['Pct_Change'] = (df['diff_price'] / df.groupby('Name')['Closing_Price'].shift()) * 100
 
-# Encontrar el top 5 de empresas con el mayor porcentaje de cambio positivo
-top_5 = df.groupby('Name')['Pct_Change'].mean().nlargest(5)
-
-
-
-#----------------------------------
-# df = df.sort_values(by=['Name', 'Date'])
-
-# # Calcular el porcentaje de cambio anual
-# df['Pct_Change'] = df.groupby('Name')['Closing_Price'].pct_change(periods=720) * 100
-
-# # Encontrar el top 5 de empresas con el mayor porcentaje de cambio promedio
-# top_5 = df.groupby('Name')['Pct_Change'].mean().nlargest(5)
-
-# Mostrar el resultado
-print("Top 5 empresas con el mayor porcentaje de cambio promedio:")
-print(top_5)
-
-# ----------------------------------
-
-# df["Pct_Change"] = df.groupby("Name")["Closing_Price"].pct_change(periods=720)*100
-
-# top_5 = df.groupby("Name")["Pct_Change"].mean().nlargest(5)
-
-# print(top_5)
-
-# ----------------------------------
+    # Encontrar el top 5 de empresas con el mayor porcentaje de cambio positivo
+    top_5 = df.groupby('Name')['Pct_Change'].mean().nlargest(5)
 
 
-# First, we need to make sure the Date column is sorted in ascending order
-# df = df.sort_values(by="Date")
 
-# # Then, we can calculate the percentage change in Closing_Price over the last year
-# df["Pct_Change"] = df["Closing_Price"].pct_change(periods=365)
+    #----------------------------------
+    # df = df.sort_values(by=['Name', 'Date'])
 
-# # Next, we can group by the unique names in the Closing_Price column and get the mean percentage change for each name
-# grouped = df.groupby("Name")["Pct_Change"].mean()
+    # # Calcular el porcentaje de cambio anual
+    # df['Pct_Change'] = df.groupby('Name')['Closing_Price'].pct_change(periods=720) * 100
 
-# # Finally, we can sort the groups by the mean percentage change in descending order and get the top 5
-# top_5 = grouped.sort_values(ascending=False).head(5)
+    # # Encontrar el top 5 de empresas con el mayor porcentaje de cambio promedio
+    # top_5 = df.groupby('Name')['Pct_Change'].mean().nlargest(5)
 
-# # Print the top 5 unique names with the greatest growth over the last year, along with the column name
-# print(f"Top 5 unique names in the 'Name' column with the greatest growth over the last year:\n{df.loc[df['Name'].isin(top_5.index.tolist()), ['Name']].drop_duplicates().reset_index(drop=True)}")
+    # Mostrar el resultado
+    print("Top 5 empresas con el mayor porcentaje de cambio promedio:")
+    print(top_5)
+
+    # ----------------------------------
+
+    # df["Pct_Change"] = df.groupby("Name")["Closing_Price"].pct_change(periods=720)*100
+
+    # top_5 = df.groupby("Name")["Pct_Change"].mean().nlargest(5)
+
+    # print(top_5)
+
+    # ----------------------------------
+
+
+    # First, we need to make sure the Date column is sorted in ascending order
+    # df = df.sort_values(by="Date")
+
+    # # Then, we can calculate the percentage change in Closing_Price over the last year
+    # df["Pct_Change"] = df["Closing_Price"].pct_change(periods=365)
+
+    # # Next, we can group by the unique names in the Closing_Price column and get the mean percentage change for each name
+    # grouped = df.groupby("Name")["Pct_Change"].mean()
+
+    # # Finally, we can sort the groups by the mean percentage change in descending order and get the top 5
+    # top_5 = grouped.sort_values(ascending=False).head(5)
+
+    # # Print the top 5 unique names with the greatest growth over the last year, along with the column name
+    # print(f"Top 5 unique names in the 'Name' column with the greatest growth over the last year:\n{df.loc[df['Name'].isin(top_5.index.tolist()), ['Name']].drop_duplicates().reset_index(drop=True)}")
+
+GettingNeutralChoices()
+
+def GettingRiskyChoices():
+
+    # Cargar el conjunto de datos desde el archivo CSV (asegúrate de cambiar el nombre del archivo)
+    df = pd.read_csv(
+        "Model/preprocessed_CAC40.csv",
+        parse_dates=["Date"],
+    )
+
+    df.drop(["Unnamed: 0"], axis=1, inplace=True)
+
+    # Ordenar el DataFrame por empresa y año
+    df = df.sort_values(by=['Name', 'Date'])
+
+    # Calcular la diferencia entre los precios de años consecutivos
+    df['diff_price'] = df.groupby('Name')['Closing_Price'].diff()
+
+    # Definir un umbral de significancia (ajusta este valor según tus necesidades)
+    umbral_significancia = 5.0  # Por ejemplo, 5.0 significa que la diferencia debe ser al menos del 5% para considerarse significativa
+
+    # Filtrar las filas con diferencias de precio dentro del umbral de significancia
+    df = df[(df['diff_price'] > 0) & (df['diff_price'] >= umbral_significancia)]
+
+    # Calcular el porcentaje de cambio positivo
+    df['Pct_Change'] = (df['diff_price'] / df.groupby('Name')['Closing_Price'].shift()) * 100
+
+    # Encontrar el top 5 de empresas con el mayor porcentaje de cambio positivo más significativo
+    top_5= df.groupby('Name')['Pct_Change'].mean().nlargest(5)
+
+    # Mostrar el resultado
+    print("Top 5 empresas con el mayor porcentaje de cambio positivo más significativo:")
+    print(top_5)
+
+GettingRiskyChoices()
+
 
 
