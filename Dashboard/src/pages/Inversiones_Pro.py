@@ -1,6 +1,6 @@
 import streamlit as st
 from services.GettingBestChoices import GettingRiskyChoices, GettingNeutralChoices,GettingPopularChoices
-from services.model import get_predictions
+from services.modelCharts import main
 
 import re
 st.title("Inversiones Pro")
@@ -34,10 +34,14 @@ if prompt := st.chat_input("What is up?"):
         # Add assistant response to chat history
         st.session_state.messages.append({"role": "assistant", "content": response})
         empresa = re.search(r'\bempresa\b\s*(\w+)', prompt).group(1)
-        response = get_predictions(empresa)
-        
+        try:
+            response = main(empresa,st.session_state.messages)
+        except:
+            response= """Una disculpa, no tengo información sobre esa empresa para analizar y hacer una prediccion correcta"""
     else:
-        response = f"Echo: {prompt}"
+        response = """¡Hola! Parece que has planteado una pregunta interesante. Lamentablemente, mi conocimiento actual se limita a ciertos temas y no tengo información específica sobre ese tema en particular.
+                        Sin embargo, estaré encantado de ayudarte con cualquier otra consulta que tengas o proporcionarte información sobre inversiones. ¿En qué más puedo asistirte hoy?"""
+
     
     # Display assistant response in chat message container
     with st.chat_message("assistant"):
