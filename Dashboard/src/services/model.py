@@ -24,7 +24,7 @@ from sklearn.metrics import mean_squared_error
 
 def get_predictions(company_name):
     df = pd.read_csv(
-        "Model/preprocessed_CAC40.csv",
+        "services/preprocessed_CAC40.csv",
         parse_dates=["Date"],
     )
     print(df.head())
@@ -294,7 +294,7 @@ def get_predictions(company_name):
     print("Predictions for the next 10 days:")
     for i, prediction in enumerate(predictions_next_10_days, start=1):
         print(f"Day {i}: Predicted Price = {prediction[0]}")
-
+    
     plt.plot(predictions_next_10_days, marker="*")
     plt.title(f"Predicted stock price of {company_name} for next 10 days")
     plt.xlabel("Days")
@@ -306,5 +306,4 @@ def get_predictions(company_name):
     plt.grid(True)
     plt.show()
 
-
-get_predictions("Accor")
+    return "Predictions for the next 10 days: " + str(predictions_next_10_days)
