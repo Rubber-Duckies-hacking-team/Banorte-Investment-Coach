@@ -93,4 +93,5 @@ def get_fondo(inv,tim):
               en sus inversiones. Ideal para el perfil de Crecimiento cuyo objetivo es forjar un patrimonio a largo 
               plazo, aceptando un riesgo considerable y minusvalias sustanciales.""")
         
-get_fondo(100,2)
+
+

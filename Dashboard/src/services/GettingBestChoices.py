@@ -79,7 +79,7 @@ def GettingNeutralChoices():
     
     return result_df.to_string(index=False,header=False)
 
-GettingNeutralChoices()
+
 
 def GettingRiskyChoices():
     # Cargar el conjunto de datos desde el archivo CSV (asegúrate de cambiar el nombre del archivo)
@@ -128,7 +128,7 @@ def GettingRiskyChoices():
     # return top_5.astype(str)
     return result_df.to_string(index=False,header=False)
 
-GettingRiskyChoices()
+
 
 
 def GettingPopularChoices():
@@ -163,4 +163,4 @@ def GettingPopularChoices():
     print(result.to_string(index=False, header=False))
     return result.to_string(index=False, header=False)
 
-GettingPopularChoices()
+
