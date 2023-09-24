@@ -1,5 +1,6 @@
 import streamlit as st
 from services.educationModel import educationModel
+from services.financeEduModel import financeEduModel
 st.title("Inversiones")
 st.sidebar.markdown("### Inversiones")
 # Initialize chat history
@@ -11,6 +12,23 @@ for message in st.session_state.messages1:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
+# Keywords to trigger the education model
+education_keywords = {
+    "Que es": True, "acciones": True, "invertir": True,
+    "explicame": True, "explicar": True, "explica": True,
+    "dime": True, "como": True, "ahorrar": True,
+    "ahorro": True, "inversion": True, "inversiones": True,
+    "stocks": True, "finanzas": True,
+    "financiero": True, "sistema financiero": True, "retiro": True,
+    "fondo de retiro": True, "banorte": True, "dinero": True,
+    "crédito": True, "préstamo": True, "intereses": True,
+    "diversificación": True, "planificación financiera": True, "presupuesto": True,
+    "impuestos": True, "inflación": True, "dividendos": True, 
+    "acciones preferentes": True, "portafolio de inversión": True,
+    "rentabilidad": True, "análisis financiero": True, "estrategia de inversión": True,
+    "saber": True, "conocer": True, "aprender": True,
+    "entender": True, "comprender": True
+}
 # React to user input
 if prompt := st.chat_input("What is up?"):
     # Display user message in chat message container
@@ -20,8 +38,9 @@ if prompt := st.chat_input("What is up?"):
 
     response=""
     #Procesar modelo dependiendo del prompt antes de la respuesta
-    if("ed:" in prompt):
-        response = educationModel(prompt)
+    # Verifica si alguna de las palabras clave está presente en el prompt
+    if any(keyword in prompt for keyword in education_keywords):
+        response = financeEduModel(prompt)
     else:
         response = f"Echo: {prompt}"
         
