@@ -24,7 +24,7 @@ from sklearn.metrics import mean_squared_error
 
 def GettingNeutralChoices():
     df = pd.read_csv(
-        "Dashboard/src/services/preprocessed_CAC40.csv",
+        "services/preprocessed_CAC40.csv",
         parse_dates=["Date"],
     )
 
@@ -94,7 +94,7 @@ def GettingRiskyChoices():
 
     # Cargar el conjunto de datos desde el archivo CSV (asegúrate de cambiar el nombre del archivo)
     df = pd.read_csv(
-        "Dashboard/src/services/preprocessed_CAC40.csv",
+        "services/preprocessed_CAC40.csv",
         parse_dates=["Date"],
     )
 
@@ -121,6 +121,8 @@ def GettingRiskyChoices():
     # Mostrar el resultado
     print("Top 5 empresas con el mayor porcentaje de cambio positivo más significativo:")
     print(top_5)
+    return(top_5.astype(str)
+)
 
 GettingRiskyChoices()
 
@@ -129,7 +131,7 @@ def GettingPopularChoices():
 
     # Cargar el conjunto de datos desde el archivo CSV (ajusta el nombre del archivo según tu dataset)
     df = pd.read_csv(
-        "Dashboard/src/services/preprocessed_CAC40.csv",
+        "services/preprocessed_CAC40.csv",
         parse_dates=["Date"],
     )
     
@@ -155,6 +157,3 @@ def GettingPopularChoices():
     print(result)
 
 GettingPopularChoices()
-
-
-
