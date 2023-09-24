@@ -19,4 +19,3 @@ def get_fondo(inv,tim):
         print("El fondo recomendado para ti es el Banorte IPC")
         
 
-get_fondo(100,5)
