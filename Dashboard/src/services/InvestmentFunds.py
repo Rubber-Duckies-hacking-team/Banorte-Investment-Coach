@@ -66,9 +66,21 @@ def get_fondo(inv,tim):
               Fondo Estrategia (NTE2):
               Es un fondo que invierte alrededor del 60% de los activos de su carter en instrumentos de Deuda, y el 40% en 
               instrumentos de Renta Variable. Los valores podran estar invertidos en mercados locales e internacionales. 
-              Obtendras mayores rendimientos con un horizonte de inversion a largo plazo.
-              
+              Obtendras mayores rendimientos con un horizonte de inversion a largo plazo. El fondo es de tipo estrategia 
+              discrecional, cuenta con un balance dentro de la composicion de su cartera, manteniendo mayor exposicion en 
+              valores Deuda y menor en Renta Variable como las acciones y los ETF's (Exchange Traded Funds), es de riesgo alto. 
+              Dirigida a inversionistas con una tolerancia moderada al riesgo que buscan diversificar y hacer crecer sus 
+              inversiones. Ideal para el perfil Moderado que busca un crecimiento constante de capital con cierta estabilidad.
+              Dispuesto a aceptar riesgo y volatilidad moderadas.
+
               Fondo Estrategia (NTE3):
+              Es un fondo que invierte alrededor del 40% de los activos de su cartera en instrumentos de Deuda, y el 60%
+              en instrumentos de Renta Variable. Los valores podran estar invertidos en mercados locales e internacionales. 
+              Obtendras mayores rendimientos con un horizonte de inversion a largo plazo. Este fondo es de tipo Estrategia
+              Discrecional, invertira los valores con una mayor exposicion en instrumentos de Renta Variable como las acciones
+              y los ETF's (Exchange Traded Funds), y en menor proporcion en instrumentos de Deuda, el nivel de riesgo es alto.
+              Dirigido a inversionistas con alta tolerancia al riesgo que buscan diversificar sus inversiones para obtener mayores
+              rendimientos. Ideal para el perfil Balanceado que busca un crecimiento importante de capital en el largo plazo.
               """)
 
     elif inv >= 100 and tim >= 60: 
