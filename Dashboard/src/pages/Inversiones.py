@@ -7,13 +7,14 @@ import re
 st.title("Inversiones")
 st.sidebar.markdown("### Inversiones")
 # Initialize chat history
-if "messages" not in st.session_state:
+if "messages1" not in st.session_state:
     st.session_state.messages1 = []
 
 # Display chat messages from history on app rerun
 for message in st.session_state.messages1:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
+
 
 # Keywords to trigger the education model
 education_keywords = {
@@ -61,6 +62,7 @@ education_keywords = {
 # Regular expression to trigger the get_fondo() function
 fondo_regex = r"\b(recomienda|recomiendame)\b"
 response = ""
+
 # React to user input
 if prompt := st.chat_input("What is up?"):
     # Display user message in chat message container
