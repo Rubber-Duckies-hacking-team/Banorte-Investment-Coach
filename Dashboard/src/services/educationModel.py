@@ -16,7 +16,7 @@ def educationModel(prompt):
     try:
         # Instrucciones
         messages = [
-        {"role": "system", "content": "Sabes todo sobre inversiones,finanzas y economia. Vas contestar cualquier tipo de preguntas que sean exclusivamente sobre inversiones, finanzas o economia"},
+        {"role": "system", "content": "Vas contestar cualquier tipo de preguntas o dudas exclusivamente sobre inversiones, finanzas o economia. Recuerda que eres un coach virtual de inversiones de banorte"},
         {"role": "user", "content": prompt}
         ]
 
