@@ -25,7 +25,7 @@ from sklearn.metrics import mean_squared_error
 
 def GettingNeutralChoices():
     df = pd.read_csv(
-        "Dashboard/src/services/preprocessed_CAC40.csv",
+        "services/preprocessed_CAC40.csv",
         parse_dates=["Date"],
     )
 
@@ -52,12 +52,16 @@ def GettingNeutralChoices():
 
     result_df = top_5.reset_index()  # Resetear el índice para obtener 'Name' como una columna
     result_df["Pct_Change"] = result_df["Pct_Change"].round(2)  # Redondear la columna 'Pct_Change' a 2 decimales
-    result_df = result_df.rename(columns={"Name": "Name", "Pct_Change": "Pct_Change"})  # Renombrar las columnas
+    #result_df = result_df.rename(columns={"Name": "Name", "Pct_Change": "Pct_Change"})  # Renombrar las columnas
 
-    # Mostrar el resultado
+    # Agregar un salto de línea ('\n') después de cada fila
+    #result_df = result_df.applymap(lambda x: f"{x},")
+    
+    result_df["Name"] = ", " + result_df["Name"] 
+
+    # Mostrar el resultado con el formato deseado
     print("Top 5 empresas con el mayor porcentaje de cambio promedio:")
-    print(result_df.to_string(index=False))  # Mostrar el DataFrame sin el índice
-
+    print(result_df.to_string(index=False,header=False))  # Ajustar la anchura de las columnas
 
     # ----------------------------------
     # df = df.sort_values(by=['Name', 'Date'])
@@ -73,14 +77,14 @@ def GettingNeutralChoices():
     # print(top_5)
     
     
-    return result_df.to_string(index=False)
+    return result_df.to_string(index=False,header=False)
 
 GettingNeutralChoices()
 
 def GettingRiskyChoices():
     # Cargar el conjunto de datos desde el archivo CSV (asegúrate de cambiar el nombre del archivo)
     df = pd.read_csv(
-        "Dashboard/src/services/preprocessed_CAC40.csv",
+        "services/preprocessed_CAC40.csv",
         parse_dates=["Date"],
     )
 
@@ -108,11 +112,13 @@ def GettingRiskyChoices():
 
     result_df = top_5.reset_index()  # Resetear el índice para obtener 'Name' como una columna
     result_df["Pct_Change"] = result_df["Pct_Change"].round(2)  # Redondear la columna 'Pct_Change' a 2 decimales
-    result_df = result_df.rename(columns={"Name": "Name", "Pct_Change": "Pct_Change"})  # Renombrar las columnas
+    #result_df = result_df.rename(columns={"Name": "Name", "Pct_Change": "Pct_Change"})  # Renombrar las columnas
+
+    result_df["Name"] = ", " + result_df["Name"]
 
     # Mostrar el resultado
     print("Top 5 empresas con el mayor porcentaje de cambio positivo más significativo:")
-    print(result_df.to_string(index=False))  # Mostrar el DataFrame sin el índice
+    print(result_df.to_string(index=False,header=False))  # Mostrar el DataFrame sin el índice
 
     # # Mostrar el resultado
     # print(
@@ -120,7 +126,7 @@ def GettingRiskyChoices():
     # )
     # print(top_5)
     # return top_5.astype(str)
-    return result_df.to_string(index=False)
+    return result_df.to_string(index=False,header=False)
 
 GettingRiskyChoices()
 
@@ -128,7 +134,7 @@ GettingRiskyChoices()
 def GettingPopularChoices():
     # Cargar el conjunto de datos desde el archivo CSV (ajusta el nombre del archivo según tu dataset)
     df = pd.read_csv(
-        "Dashboard/src/services/preprocessed_CAC40.csv",
+        "services/preprocessed_CAC40.csv",
         parse_dates=["Date"],
     )
 
@@ -151,8 +157,10 @@ def GettingPopularChoices():
     # Obtener una lista de nombres de empresas y sus valores de volumen
     result = df_sorted[["Name", "Volume"]].head(5)
 
+    result["Volume"] = result["Volume"].astype(str) + ","
+
     # Mostrar el resultado
-    print(result.to_string(index=False))
-    return result.to_string(index=False)
+    print(result.to_string(index=False, header=False))
+    return result.to_string(index=False, header=False)
 
 GettingPopularChoices()

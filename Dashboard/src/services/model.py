@@ -24,7 +24,7 @@ from sklearn.metrics import mean_squared_error
 
 def get_predictions(company_name):
     df = pd.read_csv(
-        "Model/preprocessed_CAC40.csv",
+        "services/preprocessed_CAC40.csv",
         parse_dates=["Date"],
     )
     print(df.head())
