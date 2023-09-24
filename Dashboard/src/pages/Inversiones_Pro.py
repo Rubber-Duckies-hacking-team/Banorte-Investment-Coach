@@ -1,5 +1,7 @@
 import streamlit as st
 from services.GettingBestChoices import GettingRiskyChoices, GettingNeutralChoices,GettingPopularChoices
+
+import re
 st.title("Inversiones Pro")
 st.sidebar.markdown("### Inversiones Pro")
 # Initialize chat history
@@ -18,11 +20,12 @@ if prompt := st.chat_input("What is up?"):
     # Add user message to chat history
     st.session_state.messages.append({"role": "user", "content": prompt})
 
-    if prompt == "get_Risky_Choices()":
+    if re.search(r'\briesgo\b', prompt):
         response = GettingRiskyChoices()
-    elif prompt == "get_Neutral_Choices()":
+        response = GettingRiskyChoices()
+    elif re.search(r'\bsegura\b', prompt):
         response = GettingNeutralChoices()
-    elif prompt == "get_Popular_Choices()":
+    elif re.search(r'\bpopular\b', prompt):
         response = GettingPopularChoices()
     else:
         response = f"Echo: {prompt}"
