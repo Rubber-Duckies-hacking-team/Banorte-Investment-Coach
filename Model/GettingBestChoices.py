@@ -125,4 +125,29 @@ def GettingRiskyChoices():
 GettingRiskyChoices()
 
 
+def GettingPopularChoices():
 
+    # Cargar el conjunto de datos desde el archivo CSV (ajusta el nombre del archivo según tu dataset)
+    df = pd.read_csv(
+        "Model/preprocessed_CAC40.csv",
+        parse_dates=["Date"],
+    )
+    
+    df.drop(["Unnamed: 0"], axis=1, inplace=True)
+
+    # Filtrar las filas con la fecha más reciente (2020-04-03)
+    fecha_mas_reciente = "2020-04-03"
+    df_fecha_reciente = df[df['Date'] == fecha_mas_reciente]
+
+    df_fecha_reciente['Volume'] = df_fecha_reciente['Volume'].astype(int)
+
+    # Ordenar el DataFrame por volumen de mayor a menor
+    df_sorted = df_fecha_reciente.sort_values(by='Volume', ascending=False)
+
+    # Obtener una lista de nombres de empresas y sus valores de volumen
+    result = df_sorted[['Name', 'Volume']]
+
+    # Mostrar el resultado
+    print(result)
+
+GettingPopularChoices()
