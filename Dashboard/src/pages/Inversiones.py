@@ -14,55 +14,11 @@ if "messages1" not in st.session_state:
 for message in st.session_state.messages1:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
-
-
-# Keywords to trigger the education model
-education_keywords = {
-    "Que es": True,
-    "acciones": True,
-    "invertir": True,
-    "explicame": True,
-    "explicar": True,
-    "explica": True,
-    "dime": True,
-    "como": True,
-    "ahorrar": True,
-    "ahorro": True,
-    "inversion": True,
-    "inversiones": True,
-    "stocks": True,
-    "finanzas": True,
-    "financiero": True,
-    "sistema financiero": True,
-    "retiro": True,
-    "fondo de retiro": True,
-    "banorte": True,
-    "dinero": True,
-    "crédito": True,
-    "préstamo": True,
-    "intereses": True,
-    "diversificación": True,
-    "planificación financiera": True,
-    "presupuesto": True,
-    "impuestos": True,
-    "inflación": True,
-    "dividendos": True,
-    "acciones preferentes": True,
-    "portafolio de inversión": True,
-    "rentabilidad": True,
-    "análisis financiero": True,
-    "estrategia de inversión": True,
-    "saber": True,
-    "conocer": True,
-    "aprender": True,
-    "entender": True,
-    "comprender": True,
-}
-
 # Regular expression to trigger the get_fondo() function
-fondo_regex = r"\b(recomienda|recomiendame)\b"
+fondo_regex = r"\b(recomienda|recomiendame|in:)\b"
 response = ""
 
+money, time=0,0
 # React to user input
 if prompt := st.chat_input("What is up?"):
     # Display user message in chat message container
@@ -71,22 +27,42 @@ if prompt := st.chat_input("What is up?"):
     st.session_state.messages1.append({"role": "user", "content": prompt})
 
     # Check if the prompt matches the regular expression
-    if re.search(fondo_regex, prompt, re.IGNORECASE):
-        dinero = st.text_input('Ingresa el monto:', type='default')
+    # if "in:" in prompt:
+    #     col1, col2 = st.columns(2)
+    #     if "visibility" not in st.session_state:
+    #         st.session_state.visibility = "visible"
         
-        tiempo = st.text_input('Ingresa el tiempo:', type='default')
+    #     # Set the disabled attribute based on visibility
+    #     disabled = not (st.session_state.visibility == "visible")
         
-        if dinero and tiempo:
-            response = get_fondo(int(dinero),int(tiempo))
-        else:
-            response = "Por favor ingresa un monto y un tiempo para poder recomendarte un fondo de inversión"
-        
-    # Check if any of the education keywords are present in the prompt
-    elif any(keyword in prompt for keyword in education_keywords):
-        response = financeEduModel(prompt)
-    else:
-        response = f"Echo: {prompt}"
+    #     with col1:
+    #         money = st.text_input(
+    #             "Ingresa la cantidad de inversion deseas hacer",
+    #             label_visibility=st.session_state.visibility,
+    #             disabled=disabled
+    #         )
 
+    #     with col2:
+    #         time = st.text_input(
+    #             "Ingresa el plazo en el que deseas hacer la inversion",
+    #             label_visibility=st.session_state.visibility,
+    #             disabled=disabled
+    #         )
+
+    #     if st.button("Calcular"):
+    #         try:
+    #             _money = float(money)
+    #             _time = float(time)
+    #             response = get_fondo(_money, _time)
+    #         except ValueError:
+    #             st.error("Por favor, ingresa valores válidos para la cantidad y el plazo.")
+
+    # Check if any of the education keywords are present in the prompt
+
+    try:
+        response = educationModel(prompt)
+    except:
+        response= "Una disculpa, hubo un error al procesar tu solicitud. Intenta de nuevo"
     # Display assistant response in chat message container
     with st.chat_message("assistant"):
         st.markdown(response)
