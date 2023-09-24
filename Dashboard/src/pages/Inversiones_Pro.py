@@ -4,7 +4,18 @@ from services.modelCharts import main
 
 import re
 st.title("Inversiones Pro")
+st.sidebar.markdown(
+    """
+    <img src="https://play-lh.googleusercontent.com/jFyE2IbJDS3tqTeuOoew-IfI84Uh1ZcXSr_sg0bIYuv_wkSjpFjpX70C8yezYwk3Tq4=w480-h960" style="width:60px;"/>
+    """,
+    unsafe_allow_html=True,
+)
 st.sidebar.markdown("### Inversiones Pro")
+st.sidebar.markdown("- En este chat nuestra chat nuestro coach de inversiones te pedirá el nombre de la empresa en la que te interesa invertir y creará una serie de gráficas para que puedas tomar la mejor decisión financiera.")
+st.sidebar.markdown("- Escribe **\"an:\"** y el nombre de la empresa para que nuestro coach te muestre el análisis de la empresa.")
+st.sidebar.markdown("Ejemplos:")
+st.sidebar.markdown("""> an: SAFRAN
+                    \n> an: LOréal""")
 # Initialize chat history
 if "messages" not in st.session_state:
     st.session_state.messages = []

@@ -6,6 +6,18 @@ import re
 
 st.title("Inversiones")
 st.sidebar.markdown("### Inversiones")
+st.sidebar.markdown(
+    """
+    <img src="https://play-lh.googleusercontent.com/jFyE2IbJDS3tqTeuOoew-IfI84Uh1ZcXSr_sg0bIYuv_wkSjpFjpX70C8yezYwk3Tq4=w480-h960" style="width:60px;"/>
+    """,
+    unsafe_allow_html=True,
+)
+st.sidebar.markdown("### Inversiones")
+st.sidebar.markdown("- En este chat nuestro coach de inversiones te ayudará a resolver tus dudas sobre educación financiera. Escribe **\"ed:\"** y después tu pregunta para que nuestro coach te responda sobre educación financiera.")
+st.sidebar.markdown("Ejemplos:")
+st.sidebar.markdown("""> ed: ¿Qué es una acción?
+                    \n> ed: ¿Cómo puedo invertir mi dinero?""")
+st.sidebar.markdown("- También puedes recibir recomendaciones sobre inversiones. Solo escribe **\"recomienda\"** y nosotros te vamos a orientar sobre las mejores opciones para ti.")
 # Initialize chat history
 if "messages1" not in st.session_state:
     st.session_state.messages1 = []
