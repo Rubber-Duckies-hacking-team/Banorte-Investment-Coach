@@ -20,7 +20,7 @@ if prompt := st.chat_input("What is up?"):
 
     response=""
     #Procesar modelo dependiendo del prompt antes de la respuesta
-    if("enseñame" in prompt):
+    if("ed:" in prompt):
         response = educationModel(prompt)
     else:
         response = f"Echo: {prompt}"

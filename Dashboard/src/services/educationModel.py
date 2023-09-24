@@ -1,7 +1,9 @@
 import openai
+import os
+from dotenv import load_dotenv
+load_dotenv()
+api_key = os.getenv('API_KEY')
 
-# Set your OpenAI API key
-api_key = "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"
 
 if not api_key:
     raise ValueError("OpenAI API key not found in environment variables.")
