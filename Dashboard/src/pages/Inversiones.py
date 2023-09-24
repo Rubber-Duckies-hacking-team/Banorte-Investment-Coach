@@ -1,5 +1,5 @@
 import streamlit as st
-
+from services.educationModel import educationModel
 st.title("Inversiones")
 st.sidebar.markdown("### Inversiones")
 # Initialize chat history
@@ -18,10 +18,13 @@ if prompt := st.chat_input("What is up?"):
     # Add user message to chat history
     st.session_state.messages1.append({"role": "user", "content": prompt})
 
+    response=""
     #Procesar modelo dependiendo del prompt antes de la respuesta
-    
-
-    response = f"Echo: {prompt}"
+    if("enseñame" in prompt):
+        response = educationModel(prompt)
+    else:
+        response = f"Echo: {prompt}"
+        
     # Display assistant response in chat message container
     with st.chat_message("assistant"):
         st.markdown(response)
