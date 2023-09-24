@@ -24,7 +24,7 @@ from sklearn.metrics import mean_squared_error
 
 def GettingNeutralChoices():
     df = pd.read_csv(
-        "Model/preprocessed_CAC40.csv",
+        "Dashboard/src/services/preprocessed_CAC40.csv",
         parse_dates=["Date"],
     )
 
@@ -94,7 +94,7 @@ def GettingRiskyChoices():
 
     # Cargar el conjunto de datos desde el archivo CSV (asegúrate de cambiar el nombre del archivo)
     df = pd.read_csv(
-        "Model/preprocessed_CAC40.csv",
+        "Dashboard/src/services/preprocessed_CAC40.csv",
         parse_dates=["Date"],
     )
 
@@ -129,7 +129,7 @@ def GettingPopularChoices():
 
     # Cargar el conjunto de datos desde el archivo CSV (ajusta el nombre del archivo según tu dataset)
     df = pd.read_csv(
-        "Model/preprocessed_CAC40.csv",
+        "Dashboard/src/services/preprocessed_CAC40.csv",
         parse_dates=["Date"],
     )
     
@@ -139,15 +139,22 @@ def GettingPopularChoices():
     fecha_mas_reciente = "2020-04-03"
     df_fecha_reciente = df[df['Date'] == fecha_mas_reciente]
 
-    df_fecha_reciente['Volume'] = df_fecha_reciente['Volume'].astype(int)
+
+    df_fecha_reciente['Volume'] = df_fecha_reciente['Volume'].str.replace(',', '',regex=True)
+    df_fecha_reciente['Volume'] = df_fecha_reciente['Volume'].fillna(0).astype('long')
+
+    #df_fecha_reciente['Volume'] = df_fecha_reciente['Volume'].astype(int)
 
     # Ordenar el DataFrame por volumen de mayor a menor
     df_sorted = df_fecha_reciente.sort_values(by='Volume', ascending=False)
 
     # Obtener una lista de nombres de empresas y sus valores de volumen
-    result = df_sorted[['Name', 'Volume']]
+    result = df_sorted[['Name', 'Volume']].head(5)
 
     # Mostrar el resultado
     print(result)
 
 GettingPopularChoices()
+
+
+
